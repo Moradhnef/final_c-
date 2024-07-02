@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="EasyTestMaker.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyTestMaker.Views"
+             xmlns:v="clr-namespace:EasyTestMaker.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#AAAE8E">
+    <Grid>
+        <StackPanel Orientation="Vertical" >
+            <Button Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Create Student" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.CreateStudent}"></Button>
+            <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Create Test" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.CreateTest}"></Button>
+            <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="List of Tests" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.TestArea}"></Button>
+            <Button  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="See results" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.Results}"></Button>
+
+        
+        </StackPanel>
+        <Button VerticalAlignment="Bottom"  Margin="0 0 0 5" Width="300" Background="#607B7D" Foreground="White" FontSize="24" Height="80" Content="Exit" Command="{Binding MenuCommand}" CommandParameter="{x:Static v:Views.Logout}"></Button>
+    </Grid>
+</UserControl>

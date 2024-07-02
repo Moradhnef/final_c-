@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="EasyTestMaker.Views.CreateTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyTestMaker.Views"
+             mc:Ignorable="d" 
+            xmlns:hc="https://handyorg.github.io/handycontrol"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#E0E0E0"
+            xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:viewmodels="clr-namespace:EasyTestMaker.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:CreateTestViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+      
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Background="#3A606E">
+
+            <TextBlock Text="CREATE TEST" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0 10 0 10" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid Visibility="{Binding IsVisible,Converter={StaticResource BoolToVis}}" Grid.Row="1" HorizontalAlignment="Center">
+          
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="600"/>
+                <ColumnDefinition Width="600"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="1" Grid.Column="0" BorderThickness="3"   Background="#AAAE8E" BorderBrush="#E0E0E0" CornerRadius="30" Width="500">
+                <Border.Effect>
+                    <DropShadowEffect Color="White" ShadowDepth="1"/>
+                </Border.Effect>
+                <StackPanel HorizontalAlignment="Center" Margin="40" Orientation="Vertical" DockPanel.Dock="Left">
+                    <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Grid.Row="1">
+                        <TextBlock FontSize="18" Foreground="White" Text="Lector:" FontWeight="DemiBold" Margin="0 0 10 8" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Width="400" Text="{Binding Test.LecturerName, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"/>
+                    </StackPanel>
+                    <StackPanel Margin="0 10 0 0" DockPanel.Dock="Left" Orientation="Vertical">
+                        <TextBlock  FontSize="18" Foreground="White" Text="Test Name:" Margin="0 0 10 0" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox Width="400" Text="{Binding Test.Name, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Row="4" Margin="0 10 0 0">
+                        <TextBlock  FontSize="18" Foreground="White" Text="Starting date:"/>
+                        <hc:DateTimePicker Width="400" SelectedDateTime="{Binding Test.StartDateTime, Mode=TwoWay}" Text=""  Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></hc:DateTimePicker>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="5" Margin="0 10 0 0">
+                        <TextBlock  FontSize="18" Foreground="White" Text="Total time:"/>
+                        <TextBox Text="{Binding Test.TotalTime, Mode=TwoWay}"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="6" Margin="0 10 0 0">
+                        <TextBlock  FontSize="18" Foreground="White"  Text="Randomize Questions:"/>
+                        <CheckBox IsChecked="{Binding Test.RandomSorting, Mode=TwoWay}" Margin="10 0 0 0"  Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></CheckBox>
+                    </StackPanel>
+                    <StackPanel Height="50" Orientation="Horizontal" Grid.Row="6" Margin="0 10 0 0">
+                        <Button Height="50"  FontSize="18"  Content="Add Question" Command="{Binding CreateQuestions}" Margin="0 0 10 0" Foreground="White" Background="#54B4D3"/>
+                        <Button  Height="50"  FontSize="18"  Command="{Binding CreateCommand}" Content="Save Test" Background="#14A44D" Foreground="White"/>
+                        <Button Height="50" FontSize="18" Margin="20 0 0 0"  Content="Server Update" Command="{Binding UpdateServerCommand}" Foreground="White" Background="#DC4C64"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Border>
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Added Questions" FontSize="21"></TextBlock>
+                <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ObservableQuestions, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Question}" DisplayMemberPath="Text" >
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Edit"
+                        Command="{Binding Path=Parent.DataContext.EditCommand, 
+                                    RelativeSource={RelativeSource Self}}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            <MenuItem Header="Delete"
+                        Command="{Binding Path=Parent.DataContext.Delete, 
+                                    RelativeSource={RelativeSource Self}}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </Grid>
+         
+
+            
+            
+        </Grid>
+        <ContentControl Content="{Binding QuestionViewModel}" Grid.Row="2"></ContentControl>
+    </Grid>
+
+
+
+      
+
+
+
+
+
+        <!--<Grid  HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Row="0" Margin="20" BorderBrush="Gray">
+                <GroupBox.Header>
+                    Test
+                </GroupBox.Header>
+                <GroupBox.Content>
+                    <StackPanel Margin="40" Orientation="Vertical" DockPanel.Dock="Left">
+                        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Grid.Row="1">
+                            <TextBlock Text="Lector name:" Margin="0 0 10 0" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox x:Name="lectorTextBox" Width="300" Text="{Binding Test.LecturerName, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"/>
+                        </StackPanel>
+                        <StackPanel Margin="0 10 0 0" DockPanel.Dock="Left" Orientation="Vertical">
+                            <TextBlock Text="Test Name:" Margin="0 0 10 0" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox x:Name="NameTextBox" Text="{Binding Test.Name, Mode=TwoWay}" Width="300" Grid.Row="1" Grid.Column="1"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="4" Margin="0 10 0 0">
+                            <TextBlock Text="Starting date and Hour:"/>
+                            <hc:DateTimePicker x:Name="startingHour" SelectedDateTime="{Binding Test.StartDateTime, Mode=TwoWay}" Text="" Width="300" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></hc:DateTimePicker>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="5" Margin="0 10 0 0">
+                            <TextBlock Text="Total time:"/>
+                            <TextBox x:Name="totalTimeTextBox" Text="{Binding Test.TotalTime, Mode=TwoWay}" Width="300" Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBox>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="6" Margin="0 10 0 0">
+                            <TextBlock Text="Randomize Questions:"/>
+                            <CheckBox x:Name="rendomizeQuestions" IsChecked="{Binding Test.RandomSorting, Mode=TwoWay}" Margin="10 0 0 0"  Height="20" HorizontalAlignment="Center" VerticalAlignment="Top"></CheckBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox.Content>
+            </GroupBox>
+            <hc:ButtonGroup  Margin="20" Grid.Row="1" Grid.Column="0">
+                <Button Content="Add Question" Command="{Binding CreateQuestions}" Margin="0 0 10 0" Foreground="White" Background="#54B4D3"/>
+                <Button Command="{Binding CreateCommand}" Content="Save Test" Background="#14A44D" Foreground="White"/>
+                <Button Margin="20 0 0 0"  Content="Server Updated" Command="{Binding UpdateServerCommand}" Foreground="White" Background="#DC4C64"/>
+            </hc:ButtonGroup>
+            <GroupBox Grid.Row="0" Width="400" Grid.Column="1" Margin="20" BorderBrush="Gray">
+                <GroupBox.Header>
+                    Questions
+                </GroupBox.Header>
+
+                <GroupBox.Content>-->
+
+</UserControl>
